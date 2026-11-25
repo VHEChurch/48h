@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>En prière · 48 heures non-stop · Love Expression Assembly</title>
+<meta name="description" content="Le sujet de prière en cours, en direct. Du jeudi 26 au vendredi 27 novembre 2026.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0d0026">
+<meta property="og:type" content="website">
+<meta property="og:title" content="48 heures de prière non-stop · En direct">
+<meta property="og:description" content="Le sujet de prière en cours, à tout moment. Entrez dans la chaîne.">
+<meta property="og:url" content="https://vhechurch.github.io/48h/direct/">
+<meta property="og:image" content="https://vhechurch.github.io/48h/img/apercu.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../img/icone-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../img/icone-180.png">
+<link rel="preload" as="font" type="font/woff2" href="../fonts/barlow-condensed-600.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../fonts/barlow-condensed-italic-800.woff2" crossorigin>
+<link rel="stylesheet" href="direct.css?v=1">
+</head>
+<body data-etat="charge">
+<canvas id="feu" aria-hidden="true"></canvas>
+<div class="voile" aria-hidden="true"></div>
+<div class="eclair" id="eclair" aria-hidden="true"></div>
+
+<header>
+  <a class="marque" href="../"><img src="../img/logo-lea.webp" alt="Love Expression Assembly" width="270" height="90"></a>
+  <p class="nom-prog"><b data-t="prog"></b><span id="apercu" hidden data-t="apercu"></span></p>
+  <div class="general"><small data-t="restant"></small><div class="chiffres" id="general" role="timer"></div></div>
+</header>
+
+<main id="priere">
+  <section class="sujet" id="zone" aria-live="polite">
+    <div id="sujet">
+      <p class="theme" id="theme"></p>
+      <p class="ref"><span class="bande"><span id="ref"></span></span></p>
+      <blockquote id="verset"></blockquote>
+      <p class="declare" id="declare"></p>
+    </div>
+  </section>
+  <aside>
+    <div class="cadran">
+      <svg id="cadran" viewBox="0 0 400 400" aria-hidden="true"></svg>
+      <div class="centre"><small id="numero"></small><b id="chrono" role="timer"></b><em id="prochain"></em></div>
+    </div>
+    <div class="garde" id="garde"><small data-t="garde"></small><strong id="qui"></strong><span id="apres"></span></div>
+    <div class="musique" id="musique" hidden><div id="lecteur"></div></div>
+  </aside>
+  <a class="meet" href="https://meet.google.com/xst-vqho-giu" target="_blank" rel="noopener"><span data-t="joindre"></span></a>
+</main>
+
+<main id="attente" hidden>
+  <img class="affiche" src="../img/affiche-48h.webp" alt="48 heures de prière non-stop" width="1181" height="1142">
+  <div class="bloc">
+    <p class="grand" id="att-titre"></p>
+    <div class="chiffres geant" id="att-chrono"></div>
+    <p class="sous" id="att-sous"></p>
+    <div class="liens" id="att-liens"><a class="btn" href="../"><span data-t="choisir"></span></a><a class="btn second" href="https://meet.google.com/xst-vqho-giu" target="_blank" rel="noopener"><span data-t="joindre"></span></a></div>
+  </div>
+</main>
+
+<footer>
+  <div class="bande48" id="bande48" aria-hidden="true"></div>
+  <div class="pied"><span id="jour"></span><span class="slogan" data-t="slogan"></span><a href="https://vhechurch.ca" target="_blank" rel="noopener">vhechurch.ca</a></div>
+</footer>
+
+<div class="commandes" id="commandes">
+  <button type="button" id="son" class="principal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l11-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm11-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" fill="none" stroke="currentColor" stroke-width="2"/></svg><span id="son-t"></span></button>
+  <label id="vol-l" hidden><span class="lu" data-t="volume"></span><input type="range" id="vol" min="0" max="100"></label>
+  <button type="button" id="suivante" hidden data-a="piste">⏭</button>
+  <button type="button" id="cloche" hidden aria-pressed="true" data-t="cloche"></button>
+  <span class="nav" id="nav" hidden><button type="button" id="prec" data-a="prec">‹</button><button type="button" id="suiv" data-a="suiv">›</button></span>
+  <button type="button" id="langue"></button>
+  <button type="button" id="plein" data-a="plein">⛶</button>
+</div>
+
+<script src="../config.js?v=2"></script>
+<script src="musiques.js?v=1"></script>
+<script src="feu.js?v=1"></script>
+<script src="direct.js?v=1"></script>
+</body>
+</html>
