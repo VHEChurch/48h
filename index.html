@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>48 heures de prière non-stop · Love Expression Assembly</title>
+<meta name="description" content="Choisissez votre heure de permanence et rejoignez la chaîne de prière. Du jeudi 26 au vendredi 27 novembre 2026.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#140036">
+<meta property="og:type" content="website">
+<meta property="og:title" content="48 heures de prière non-stop">
+<meta property="og:description" content="Choisissez votre heure de permanence et rejoignez la chaîne de prière.">
+<meta property="og:url" content="https://vhechurch.github.io/48h/">
+<meta property="og:image" content="https://vhechurch.github.io/48h/img/apercu.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/icone-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="img/icone-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" as="image" href="img/affiche-48h.webp">
+<link rel="preload" as="font" type="font/woff2" href="fonts/barlow-condensed-italic-800.woff2" crossorigin>
+<link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+<div class="faisceaux" id="faisceaux" aria-hidden="true"></div>
+
+<header class="haut">
+  <a class="marque" href="https://vhechurch.ca" target="_blank" rel="noopener" aria-label="Love Expression Assembly">
+    <img src="img/logo-lea.webp" alt="Love Expression Assembly" width="150" height="50">
+  </a>
+  <div class="langues" role="group" aria-label="Langue / Language">
+    <button type="button" data-lang="fr">FR</button><button type="button" data-lang="en">EN</button>
+  </div>
+</header>
+
+<main>
+  <section class="ouverture">
+    <div class="art"><img src="img/affiche-48h.webp" alt="" width="1181" height="1142"></div>
+    <div class="accroche">
+      <h1 class="titre-en" data-t="h1"></h1>
+      <p class="dates"><span class="bande"><span data-t="dates"></span></span></p>
+      <p class="heures" data-t="heures"></p>
+      <div class="rebours" id="rebours"></div>
+      <div class="actions">
+        <button type="button" class="btn principal" id="ouvrir"><span data-t="choisir"></span></button>
+        <a class="btn second" id="joindre" href="https://meet.google.com/xst-vqho-giu" target="_blank" rel="noopener">
+          <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5A1.5 1.5 0 0 1 5.5 5h8A1.5 1.5 0 0 1 15 6.500v11a1.500 1.500 0 0 1-1.500 1.500h-8A1.500 1.500 0 0 1 4 17.500zM16.500 10.200 20.200 7.400c.5-.4 1.300 0 1.300.700v7.800c0 .700-.800 1.100-1.300.700l-3.700-2.800z" fill="currentColor"/></svg><b data-t="joindre"></b></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="moi" id="moi" hidden></section>
+
+  <section class="chaine" id="chaine">
+    <div class="cadran-bloc">
+      <h2 data-t="chaine"></h2>
+      <div class="cadran"><svg id="cadran" viewBox="0 0 400 400" role="img"></svg>
+        <div class="centre"><strong id="nb">–</strong><span data-t="couvertes"></span></div>
+      </div>
+      <p class="legende"><span><i class="ext"></i><em data-t="jeudi"></em></span><span><i class="int"></i><em data-t="vendredi"></em></span></p>
+      <div class="garde" id="garde"></div>
+      <div class="urgence" id="urgence"></div>
+    </div>
+
+    <div class="calendrier">
+      <div class="cal-tete">
+        <h2 data-t="calendrier"></h2>
+        <p class="aide" data-t="aide"></p>
+      </div>
+      <div class="onglets" role="tablist">
+        <button type="button" role="tab" data-jour="0"><b data-t="jeudi"></b><small id="c0"></small></button>
+        <button type="button" role="tab" data-jour="1"><b data-t="vendredi"></b><small id="c1"></small></button>
+      </div>
+      <p class="etat" id="etat" role="status"></p>
+      <div id="grille"></div>
+    </div>
+  </section>
+
+  <section class="verset">
+    <blockquote data-t="verset"></blockquote>
+    <p data-t="ref"></p>
+  </section>
+</main>
+
+<footer>
+  <img src="img/logo-lea.webp" alt="Love Expression Assembly" width="270" height="90" loading="lazy">
+  <p class="slogan" data-t="slogan"></p>
+  <p><a href="https://vhechurch.ca" target="_blank" rel="noopener">vhechurch.ca</a></p>
+</footer>
+
+<div class="barre" id="barre" hidden>
+  <div><strong id="barre-h"></strong><small id="barre-d"></small></div>
+  <button type="button" class="raz" id="raz"></button>
+  <button type="button" class="btn principal petit" id="continuer"><span data-t="continuer"></span></button>
+</div>
+
+<dialog id="fiche">
+  <form id="form" novalidate>
+    <button type="button" class="fermer" id="fermer" aria-label="Fermer">×</button>
+    <h2 data-t="maPermanence"></h2>
+    <fieldset><legend data-t="jour"></legend>
+      <div class="jours">
+        <label><input type="radio" name="jour" value="0"><span data-t="jeudi"></span></label>
+        <label><input type="radio" name="jour" value="1"><span data-t="vendredi"></span></label>
+      </div>
+    </fieldset>
+    <div class="deux">
+      <label><span data-t="de"></span><select id="de"></select></label>
+      <label><span data-t="a"></span><select id="a"></select></label>
+    </div>
+    <p class="resume" id="resume"></p>
+    <label class="nom"><span data-t="nom"></span><input id="nom" name="name" autocomplete="name" maxlength="40" enterkeyhint="done"></label>
+    <p class="note" data-t="noteNom"></p>
+    <input class="piege" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p class="alerte" id="alerte" role="alert"></p>
+    <button type="submit" class="btn principal large" id="valider"><span data-t="valider"></span></button>
+  </form>
+  <div id="merci" hidden></div>
+</dialog>
+<div class="annonce" id="annonce" role="status"></div>
+
+<script src="config.js?v=1"></script>
+<script src="textes.js?v=1"></script>
+<script src="app.js?v=1"></script>
+</body>
+</html>
