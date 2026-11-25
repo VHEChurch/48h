@@ -1,13 +1,13 @@
 /* L'écran de prière : tout se déduit de l'heure. Le sujet n° 1 commence jeudi 26.11.2026 à 00 h (UTC−6), un sujet toutes les 5 minutes. */
 (() => {
   const T = {
-    fr: { prog: '48 heures de prière non-stop', apercu: 'Aperçu', restant: 'Temps restant', garde: 'De permanence', joindre: 'Rejoindre la chaîne de prière', choisir: 'Choisir mon heure', volume: 'Volume', cloche: 'Bruitages', mus: 'Musique', categorie: 'Catégorie en cours', catN: (a, b) => `Sujet ${a} sur ${b}`, catS: (x) => `Ensuite : ${x}`, catF: (x) => `Prochaine catégorie : ${x}`, nouvelle: 'Nouvelle catégorie', faites: (n) => n === 1 ? '1 heure accomplie' : `${n} heures accomplies`, hEn: (n) => `Nous entrons dans l’heure ${n} sur 48`, es1: 'Son sujet', es2: 'Son catégorie', es3: 'Son heure',
+    fr: { prog: '48 heures de prière non-stop', apercu: 'Aperçu', restant: 'Temps restant', garde: 'De permanence', joindre: 'Rejoindre la chaîne de prière', choisir: 'Choisir mon heure', categorie: 'Catégorie en cours', jour40: (n) => `40 jours pour Sa gloire, jour ${n}`, pour: (x) => `Intercession : ${x}`, catN: (a, b) => `Sujet ${a} sur ${b} de ce thème`, catS: (x) => `Ensuite : ${x}`, catF: (x) => `Prochain thème : ${x}`, nouvelle: 'Nouvelle catégorie', nouveau: 'Nouveau thème', faites: (n) => n === 1 ? '1 heure accomplie' : `${n} heures accomplies`, hEn: (n) => `Nous entrons dans l’heure ${n} sur 48`,
       slogan: 'PARTAGER L’AMOUR DE <em>CHRIST</em> POUR CHANGER LE MONDE', sujet: (n, t) => `Sujet ${n} sur ${t}`, prochain: (r) => `Ensuite : ${r}`, apres: (h, q) => `À ${h} : ${q}`, releve: (m, q) => `Relève dans ${m} : ${q}`, personne: 'Toute l’assemblée', fin: 'fin de la chaîne',
-      son: 'Lancer le son', couper: 'Couper le son', plein: 'Plein écran', piste: 'Musique suivante', prec: 'Sujet précédent', suiv: 'Sujet suivant', avant: 'La chaîne commence dans', avantS: 'Jeudi 26 novembre, 00 h, heure d’Edmonton', finT: 'Les 48 heures sont accomplies', finS: 'Merci à chaque sentinelle. À Dieu seul la gloire !',
+      porte: 'Touchez l’écran pour entrer', porteS: 'La musique commence et la prière suit son cours.', avant: 'La chaîne commence dans', avantS: 'Jeudi 26 novembre, 00 h, heure d’Edmonton', finT: 'Les 48 heures sont accomplies', finS: 'Merci à chaque sentinelle. À Dieu seul la gloire !',
       jours: ['Jeudi 26 novembre', 'Vendredi 27 novembre'], h: (h) => `${h} h`, heureN: (n) => `heure ${n} sur 48`, et: ' et ' },
-    en: { prog: '48 hours of non-stop prayer', apercu: 'Preview', restant: 'Time remaining', garde: 'On watch', joindre: 'Join the prayer chain', choisir: 'Choose my hour', volume: 'Volume', cloche: 'Chimes', mus: 'Music', categorie: 'Current category', catN: (a, b) => `Topic ${a} of ${b}`, catS: (x) => `Next: ${x}`, catF: (x) => `Next category: ${x}`, nouvelle: 'New category', faites: (n) => n === 1 ? '1 hour completed' : `${n} hours completed`, hEn: (n) => `Entering hour ${n} of 48`, es1: 'Topic sound', es2: 'Category sound', es3: 'Hour sound',
+    en: { prog: '48 hours of non-stop prayer', apercu: 'Preview', restant: 'Time remaining', garde: 'On watch', joindre: 'Join the prayer chain', choisir: 'Choose my hour', categorie: 'Current category', jour40: (n) => `40 days for His glory, day ${n}`, pour: (x) => `Intercession: ${x}`, catN: (a, b) => `Topic ${a} of ${b} in this theme`, catS: (x) => `Next: ${x}`, catF: (x) => `Next theme: ${x}`, nouvelle: 'New category', nouveau: 'New theme', faites: (n) => n === 1 ? '1 hour completed' : `${n} hours completed`, hEn: (n) => `Entering hour ${n} of 48`,
       slogan: 'SHARING THE LOVE OF <em>CHRIST</em> TO CHANGE THE WORLD', sujet: (n, t) => `Topic ${n} of ${t}`, prochain: (r) => `Next: ${r}`, apres: (h, q) => `At ${h}: ${q}`, releve: (m, q) => `Handover in ${m}: ${q}`, personne: 'The whole church', fin: 'end of the chain',
-      son: 'Turn sound on', couper: 'Turn sound off', plein: 'Full screen', piste: 'Next track', prec: 'Previous topic', suiv: 'Next topic', avant: 'The chain begins in', avantS: 'Thursday, November 26, 12 AM, Edmonton time', finT: 'The 48 hours are complete', finS: 'Thank you to every watchman. To God alone be the glory!',
+      porte: 'Tap the screen to enter', porteS: 'The music begins and prayer takes its course.', avant: 'The chain begins in', avantS: 'Thursday, November 26, 12 AM, Edmonton time', finT: 'The 48 hours are complete', finS: 'Thank you to every watchman. To God alone be the glory!',
       jours: ['Thursday, November 26', 'Friday, November 27'], h: (h) => `${h % 12 || 12} ${h < 12 ? 'AM' : 'PM'}`, heureN: (n) => `hour ${n} of 48`, et: ' and ' },
   };
   const $ = (i) => document.getElementById(i), Q = new URLSearchParams(location.search);
@@ -15,9 +15,17 @@
   const lire = (k) => { try { return localStorage.getItem(k); } catch { return null; } }, ecrire = (k, v) => { try { localStorage.setItem(k, v); } catch { /* stockage fermé */ } };
   let lang = Q.get('lang') || lire('48h-lang') || 'fr'; if (!T[lang]) lang = 'fr';
   const t = () => T[lang];
-  const apercu = Q.has('apercu');
-  // en aperçu : ?apercu (sujet 1) ou ?apercu=120 (sujet 120), ?reste=20 (20 s avant la fin du sujet) ; les flèches changent de sujet
-  let decal = apercu ? DEBUT + (Math.min(TOTAL, Math.max(1, Number(Q.get('apercu')) || 1)) - 1) * PAS + (Q.has('reste') ? PAS - Number(Q.get('reste')) * 1000 : 1500) - Date.now() : 0;
+  // relecture : réservée au lien privé (?relecture=clé&sujet=120&reste=20). Sans la bonne clé, rien ne peut avancer ni reculer.
+  let apercu = false;
+  let decal = 0;
+  async function relecture() {
+    if (!Q.has('relecture') || !crypto.subtle) return;
+    const h = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('48h:' + Q.get('relecture')));
+    if ([...new Uint8Array(h)].map((x) => x.toString(16).padStart(2, '0')).join('') !== 'c1f44b08b4409911a0d2466286695e1aaa430cdb2fa46fa48cb28414cfad972a') return;
+    apercu = true; $('apercu').hidden = false;
+    decal = DEBUT + (Math.min(TOTAL, Math.max(1, Number(Q.get('sujet')) || 1)) - 1) * PAS + (Q.has('reste') ? PAS - Number(Q.get('reste')) * 1000 : 1500) - Date.now();
+    addEventListener('keydown', (e) => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return; const i = Math.floor((now() - DEBUT) / PAS); decal += DEBUT + Math.max(0, Math.min(TOTAL - 1, i + d)) * PAS + 200 - now(); tic(); });
+  }
   let horloge = 0, sujets = [], gardes = [], vu = -1, vuEtat = '', vuGarde = '';
   const now = () => Date.now() + horloge * !apercu + decal;
   const p2 = (n) => String(n).padStart(2, '0');
@@ -28,7 +36,7 @@
   /* ---- données ---- */
   async function chargerSujets() {
     try {
-      const r = await (await fetch('sujets.json?t=' + Math.floor(Date.now() / 60000), { cache: 'no-cache' })).json();
+      const r = await (await fetch('sujets.json', { cache: 'no-cache' })).json();
       if (!Array.isArray(r.sujets) || (r.exemples && !apercu)) return; // les exemples ne servent qu’à l’aperçu
       const avant = JSON.stringify(sujets[vu]), premier = !sujets.length; sujets = r.sujets;
       if (!premier && vu >= 0 && JSON.stringify(sujets[vu]) !== avant) poser(vu, false);
@@ -47,7 +55,7 @@
   const noms = (h) => gardes.filter((g) => g.de <= h && g.a > h).map((g) => g.nom);
   const joint = (l) => l.length ? l.slice(0, -1).join(', ') + (l.length > 1 ? t().et : '') + l[l.length - 1] : t().personne;
   const libre = { theme: 'Sentinelles', ref: 'Ésaïe 62.6', verset: 'Sur tes murs, Jérusalem, j’ai placé des gardes ; Ils ne se tairont ni jour ni nuit.', texte: 'Nous déclarons que nous tenons la garde devant Dieu. Nous prions par l’Esprit, chacun à haute voix, sans nous taire.' };
-  const sujet = (i) => sujets[i] && (sujets[i].texte || sujets[i].verset) ? sujets[i] : libre;
+  const sujet = (i) => sujets[i] && (sujets[i].dec || sujets[i].texte || sujets[i].verset) ? sujets[i] : libre;
 
   /* ---- le cadran des 5 minutes ---- */
   const R = 176, PER = 2 * Math.PI * R;
@@ -75,25 +83,28 @@
   }
   function poser(i, anime) {
     const x = sujet(i), th = $('theme'), rf = $('ref'), bl = rf.closest('.ref'), v = $('verset'), d = $('declare');
-    th.textContent = typo(x.theme); th.hidden = !x.theme;
+    th.textContent = typo(x.theme); $('pour').textContent = x.pour ? t().pour(x.pour) : ''; th.parentNode.hidden = !x.theme; $('titre').textContent = typo(x.titre || '');
     rf.textContent = x.ref || ''; bl.hidden = !x.ref;
     v.textContent = x.verset ? typo('« ' + x.verset + ' »') : ''; v.hidden = !x.verset;
-    let html = ech(typo(x.texte)).replace(MOTS, '<strong>$&</strong>');
-    if (anime) { let k = 0; html = html.split(/(<[^>]+>|[ \n]+)/).map((m) => !m || /^[< \n]/.test(m) ? m : `<span class="mot" style="--i:${Math.min(k++, 130)}">${m}</span>`).join(''); }
-    d.innerHTML = html;
+    let k = 0; d.innerHTML = (x.dec || [x.texte || '']).map((p) => {
+    let html = ech(typo(p)).replace(MOTS, '<strong>$&</strong>');
+    if (anime) html = html.split(/(<[^>]+>|[ \n]+)/).map((m) => !m || /^[< \n]/.test(m) ? m : `<span class="mot" style="--i:${Math.min(k++, 130)}">${m}</span>`).join('');
+    return `<p>${html}</p>`; }).join('');
     $('numero').textContent = t().sujet(i + 1, TOTAL);
     categorie(i);
-    for (const e of [th, bl, v]) { e.classList.remove('entree'); if (anime) { void e.offsetWidth; e.classList.add('entree'); } }
+    for (const e of [th.parentNode, $('titre'), bl, v]) { e.classList.remove('entree'); if (anime) { void e.offsetWidth; e.classList.add('entree'); } }
     ajuster();
   }
+  const cle = (i) => { const x = sujet(i); return (x.cat || '') + '|' + (x.theme || ''); };
   function categorie(i) {
-    const th = sujet(i).theme || ''; $('cat').hidden = !th; if (!th) return;
-    let a = i, b = i; while (a > 0 && sujet(a - 1).theme === th) a--; while (b + 1 < TOTAL && sujet(b + 1).theme === th) b++;
-    const n = b - a + 1, k = i - a, s = i + 1 < TOTAL ? sujet(i + 1) : null;
-    $('cat-n').textContent = t().catN(k + 1, n);
-    $('cat-pas').hidden = n < 2 || n > 60;
-    $('cat-pas').innerHTML = n < 2 || n > 60 ? '' : Array.from({ length: n }, (_, j) => `<i class="${j < k ? 'ok' : j === k ? 'ici' : ''}"></i>`).join('');
-    $('cat-s').textContent = !s ? '' : b > i ? t().catS(s.ref || '') : t().catF(s.theme || '');
+    const x = sujet(i), c = cle(i); $('cat').hidden = !x.theme; if (!x.theme) return;
+    let a = i, b = i; while (a > 0 && cle(a - 1) === c) a--; while (b + 1 < TOTAL && cle(b + 1) === c) b++;
+    const n = b - a + 1, k = i - a, s = i + 1 < TOTAL ? sujet(i + 1) : null, seul = n > 60;
+    $('cat-t').textContent = x.jour ? t().jour40(x.jour) : t().categorie;
+    $('cat-c').textContent = typo(x.cat || x.theme); $('cat-n').textContent = seul ? '' : t().catN(k + 1, n);
+    $('cat-pas').hidden = n < 2 || seul;
+    $('cat-pas').innerHTML = n < 2 || seul ? '' : Array.from({ length: n }, (_, j) => `<i class="${j < k ? 'ok' : j === k ? 'ici' : ''}"></i>`).join('');
+    $('cat-s').textContent = !s || seul ? '' : typo(b > i ? t().catS(s.titre || s.ref || '') : t().catF(s.theme || ''));
   }
   function annoncer(petit, grand, heure) {
     const a = $('annonce'); $('an-s').textContent = petit; $('an-t').textContent = typo(grand); a.classList.toggle('h', !!heure); a.classList.remove('go'); void a.offsetWidth; a.classList.add('go');
@@ -102,10 +113,11 @@
     const premier = vu < 0, avant = vu; vu = i;
     if (premier) { poser(i, true); if (now() - DEBUT < 4000) SON.jouer('heure'); return; }
     // sujet, catégorie ou heure : à chaque passage son bruitage et son annonce
-    const heure = i === avant + 1 && i % 12 === 0, cat = sujet(i).theme && sujet(i).theme !== sujet(avant).theme;
+    const heure = i === avant + 1 && i % 12 === 0, cat = cle(i) !== cle(avant) && sujet(i).theme;
+    const dire = () => { const x = sujet(vu), neuve = x.cat && x.cat !== sujet(avant).cat; annoncer(neuve ? t().nouvelle : x.cat || t().nouveau, neuve ? x.cat : x.theme); };
     SON.jouer(heure ? 'heure' : cat ? 'categorie' : 'sujet');
     if (heure) annoncer(t().hEn(i / 12 + 1), t().faites(i / 12), true);
-    if (cat && heure) { SON.jouer('categorie', 6.5); setTimeout(() => annoncer(t().nouvelle, sujet(vu).theme), 4700); } else if (cat) annoncer(t().nouvelle, sujet(i).theme);
+    if (cat && heure) { SON.jouer('categorie', 6.5); setTimeout(dire, 4700); } else if (cat) dire();
     const s = $('sujet'), ec = $('eclair'); s.classList.add('sort');
     if (window.FEU) window.FEU.souffle = 1;
     ec.classList.remove('go'); void ec.offsetWidth; ec.classList.add('go');
@@ -150,59 +162,58 @@
     tete.setAttribute('transform', `rotate(${(-90 + 360 * f).toFixed(2)} 200 200)`);
   }
 
-  /* ---- bruitages et musique ---- */
+  /* ---- musique et bruitages : tout est automatique, calé sur l'heure, sans aucune commande ---- */
   const SON = (() => {
-    const M = window.MUSIQUES || {}, L = M.fichiers || [], petit = matchMedia('(max-width:860px),(pointer:coarse)').matches, dispo = !!(L.length || (M.playlist && !petit));
-    let marche = false, vol = Number(lire('48h-vol') ?? 60), cloche = lire('48h-cloche') !== '0', mus = true, ctx = null, sortie = null, fen = null, A = null, k = 0;
-    const canal = 'BroadcastChannel' in window ? new BroadcastChannel('48h-musique') : null, dire = (o) => canal && canal.postMessage(o);
-    if (canal) canal.onmessage = ({ data: d }) => { if (d.ferme) { fen = null; if (marche && mus) { mus = false; etat(); } } };
-    $('vol').value = vol;
-    function etat() {
-      const m = marche && dispo;
-      $('son-t').textContent = marche ? t().couper : t().son; $('cloche').hidden = !marche; $('mus').hidden = !m; $('vol-l').hidden = $('suivante').hidden = !m || !mus;
-      $('cloche').setAttribute('aria-pressed', cloche); $('mus').setAttribute('aria-pressed', mus); $('son').setAttribute('aria-pressed', marche);
+    const M = window.MUSIQUES || { pistes: [] }, P = M.pistes, TOUT = P.reduce((x, p) => x + p.d, 0);
+    let ctx = null, sortie = null, ouvert = false, k = -1, essai = 0;
+    const A = new Audio(); A.preload = 'auto';
+    // le morceau et la seconde à jouer se déduisent de l'heure : tout le monde entend la même chose au même moment
+    const ou = () => { let x = (((Date.now() + horloge - DEBUT) / 1000) % TOUT + TOUT) % TOUT, i = 0; while (x >= P[i].d) x -= P[i++].d; return { i, x }; };
+    function caler(force) {
+      if (!P.length) return Promise.resolve();
+      const o = ou();
+      if (o.i !== k) { k = o.i; A.src = M.base + P[k].f; A.currentTime = o.x; }
+      else if (A.readyState > 0 && (force || Math.abs(A.currentTime - o.x) > 5)) A.currentTime = o.x;
+      return A.play();
     }
-    function musique(oui) {
-      if (!dispo) return;
-      if (L.length) { if (!oui) { if (A) A.pause(); } else if (A) A.play(); else fichier(0); return; }
-      // la playlist YouTube joue dans sa propre fenêtre, derrière l'écran de prière : rien ne s'affiche ici
-      if (oui && (!fen || fen.closed)) { fen = open('musique/', 'musique48', 'popup,width=480,height=340,left=20,top=20'); if (!fen) { mus = false; etat(); } } else dire({ cmd: oui ? 'lire' : 'pause' });
+    function bruits() {
+      try { if (!ctx) { ctx = new (window.AudioContext || window.webkitAudioContext)(); sortie = ctx.createDynamicsCompressor(); sortie.threshold.value = -10; sortie.ratio.value = 6; sortie.connect(ctx.destination); } if (ctx.state !== 'running') ctx.resume().catch(() => {}); } catch { ctx = null; }
     }
-    function fichier(i) { k = i % L.length; if (A) A.pause(); A = new Audio(L[k].src); A.volume = vol / 100; A.onended = () => marche && mus && fichier(k + 1); A.play().catch(() => {}); }
-    $('son').onclick = () => {
-      marche = !marche;
-      try { if (!ctx) { ctx = new (window.AudioContext || window.webkitAudioContext)(); sortie = ctx.createDynamicsCompressor(); sortie.threshold.value = -10; sortie.ratio.value = 6; sortie.connect(ctx.destination); } ctx.resume(); } catch { ctx = null; }
-      if (mus) musique(marche);
-      etat(); if (marche) jouer('sujet');
-    };
-    $('mus').onclick = () => { mus = !mus; musique(mus); etat(); };
-    $('suivante').onclick = () => L.length ? fichier(k + 1) : dire({ cmd: 'suivante' });
-    $('vol').oninput = (e) => { vol = Number(e.target.value); ecrire('48h-vol', vol); dire({ vol }); if (A) A.volume = vol / 100; };
-    $('cloche').onclick = () => { cloche = !cloche; ecrire('48h-cloche', cloche ? '1' : '0'); etat(); if (cloche) jouer('sujet'); };
-    function jouer(nom, dans = 0) { if (!ctx || !marche || !cloche) return; if (ctx.state !== 'running') ctx.resume(); try { window.SONS.jouer(nom, ctx, sortie, 1, ctx.currentTime + 0.06 + dans); } catch { /* son indisponible */ } }
-    // boutons d'essai de l'aperçu : le bruitage seul, sans ouvrir la musique
-    document.querySelectorAll('[data-son]').forEach((e) => { e.onclick = () => { if (!marche) { mus = false; $('son').click(); setTimeout(() => jouer(e.dataset.son), 1200); } else jouer(e.dataset.son); }; });
-    return { jouer, etat };
+    function entrer() { ouvert = true; const p = $('porte'); p.classList.add('part'); setTimeout(() => { p.hidden = true; }, 800); ['pointerup', 'touchend', 'click', 'keydown'].forEach((e) => removeEventListener(e, toucher, true)); }
+    function toucher() { bruits(); caler(true).then(entrer).catch(() => { if (ctx) entrer(); }); }
+    async function demarrer() {
+      bruits();
+      let ok = false; try { await caler(true); ok = true; } catch { /* le navigateur attend un premier toucher */ }
+      await new Promise((r) => setTimeout(r, 250));
+      if (ok && ctx && ctx.state === 'running') { ouvert = true; return; }
+      $('porte').hidden = false; ['pointerup', 'touchend', 'click', 'keydown'].forEach((e) => addEventListener(e, toucher, true));
+      setTimeout(() => $('porte').classList.add('bas'), 45000); // écran projeté sans personne devant : on libère l'image
+    }
+    // une fois lancée, la musique ne s'arrête plus : pause du téléphone, coupure réseau ou fin de morceau, elle repart au bon endroit
+    const repartir = () => { if (!ouvert) return; bruits(); caler(false).catch(() => {}); };
+    A.addEventListener('ended', () => { k = -1; repartir(); });
+    A.addEventListener('error', () => { k = -1; setTimeout(repartir, Math.min(30000, 2000 * ++essai)); });
+    A.addEventListener('playing', () => { essai = 0; const o = ou(); if (o.i === k && Math.abs(A.currentTime - o.x) > 2.5) A.currentTime = o.x + 0.4; });
+    A.addEventListener('pause', () => { if (!A.ended) setTimeout(repartir, 600); });
+    setInterval(() => { if (!ouvert || !P.length) return; const o = ou(); if (A.paused || o.i !== k) { if (!(o.i !== k && P[k] && o.x < 1.5 && !A.paused)) repartir(); } }, 3000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) repartir(); });
+    if ('mediaSession' in navigator) { try { navigator.mediaSession.metadata = new MediaMetadata({ title: '48 heures de prière non-stop', artist: 'Love Expression Assembly', artwork: [{ src: '../img/icone-512.png', sizes: '512x512', type: 'image/png' }] }); } catch { /* sans pochette */ } ['play', 'pause', 'stop', 'seekbackward', 'seekforward', 'seekto', 'previoustrack', 'nexttrack'].forEach((x) => { try { navigator.mediaSession.setActionHandler(x, repartir); } catch { /* action inconnue */ } }); }
+    function jouer(nom, dans = 0) { if (!ctx || ctx.state !== 'running') return; try { window.SONS.jouer(nom, ctx, sortie, 1, ctx.currentTime + 0.06 + dans); } catch { /* son indisponible */ } }
+    return { jouer, demarrer };
   })();
 
-  /* ---- commandes ---- */
+  /* ---- la page ---- */
   function textes() {
-    document.documentElement.lang = lang; document.querySelectorAll('[data-t]').forEach((e) => { e.innerHTML = t()[e.dataset.t]; }); document.querySelectorAll('[data-a]').forEach((e) => { e.title = t()[e.dataset.a]; e.setAttribute('aria-label', t()[e.dataset.a]); });
-    $('langue').textContent = lang === 'fr' ? 'EN' : 'FR'; SON.etat(); vuGarde = ''; vuEtat = ''; tic();
+    document.documentElement.lang = lang; document.querySelectorAll('[data-t]').forEach((e) => { e.innerHTML = t()[e.dataset.t]; }); vuGarde = ''; vuEtat = ''; tic();
   }
-  $('langue').onclick = () => { lang = lang === 'fr' ? 'en' : 'fr'; ecrire('48h-lang', lang); textes(); };
-  $('plein').onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.().catch(() => {});
-  const aller = (d) => { if (!apercu) return; const i = Math.floor((now() - DEBUT) / PAS); decal += DEBUT + Math.max(0, Math.min(TOTAL - 1, i + d)) * PAS + 200 - now(); tic(); };
-  $('prec').onclick = () => aller(-1); $('suiv').onclick = () => aller(1); $('nav').hidden = !apercu; $('apercu').hidden = !apercu;
-  addEventListener('keydown', (e) => { if (e.target.matches('input') || e.ctrlKey || e.metaKey || e.altKey) return; const c = e.key.toLowerCase(); if (c === 'f') $('plein').click(); if (c === 'm') $('son').click(); if (c === 'n' && !$('suivante').hidden) $('suivante').click(); if (c === 'arrowleft') aller(-1); if (c === 'arrowright') aller(1); });
   let dort; const reveil = () => { document.body.classList.remove('calme'); clearTimeout(dort); dort = setTimeout(() => document.body.classList.add('calme'), 7000); };
   ['mousemove', 'touchstart', 'keydown'].forEach((e) => addEventListener(e, reveil, { passive: true })); reveil();
   const eveille = async () => { try { if (document.visibilityState === 'visible') await navigator.wakeLock?.request('screen'); } catch { /* écran non maintenu */ } };
   document.addEventListener('visibilitychange', () => { eveille(); tic(); }); addEventListener('click', eveille); eveille();
   let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(ajuster, 120); });
 
-  Promise.allSettled([chargerSujets(), document.fonts.ready, Promise.race([chargerGardes(), new Promise((r) => setTimeout(r, 2500))])]).then(() => {
-    textes(); setInterval(tic, 250); setInterval(anneau, 100); anneau(); setInterval(chargerGardes, 20000); setInterval(chargerSujets, 120000);
+  relecture().catch(() => {}).then(() => Promise.allSettled([chargerSujets(), document.fonts.ready, Promise.race([chargerGardes(), new Promise((r) => setTimeout(r, 2500))])])).then(() => {
+    textes(); SON.demarrer(); setInterval(tic, 250); setInterval(anneau, 100); anneau(); setInterval(chargerGardes, 20000); setInterval(chargerSujets, 300000);
     Promise.all(['600 30px', '700 30px', 'italic 700 30px', 'italic 800 30px'].map((f) => document.fonts.load(f + ' "Barlow Condensed"'))).then(ajuster);
   });
 })();

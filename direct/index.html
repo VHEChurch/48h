@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="../img/icone-180.png">
 <link rel="preload" as="font" type="font/woff2" href="../fonts/barlow-condensed-600.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="../fonts/barlow-condensed-italic-800.woff2" crossorigin>
-<link rel="stylesheet" href="direct.css?v=2">
+<link rel="stylesheet" href="direct.css?v=4">
 </head>
 <body data-etat="charge">
 <canvas id="feu" aria-hidden="true"></canvas>
@@ -36,10 +36,11 @@
 <main id="priere">
   <section class="sujet" id="zone" aria-live="polite">
     <div id="sujet">
-      <p class="theme" id="theme"></p>
+      <p class="theme"><em id="pour"></em><span id="theme"></span></p>
+      <h1 id="titre"></h1>
       <p class="ref"><span class="bande"><span id="ref"></span></span></p>
       <blockquote id="verset"></blockquote>
-      <p class="declare" id="declare"></p>
+      <div class="declare" id="declare"></div>
     </div>
   </section>
   <aside>
@@ -48,7 +49,7 @@
       <div class="centre"><small id="numero"></small><b id="chrono" role="timer"></b><em id="prochain"></em></div>
     </div>
     <div class="garde" id="garde"><small data-t="garde"></small><strong id="qui"></strong><span id="apres"></span></div>
-    <div class="cat" id="cat"><small data-t="categorie"></small><b id="cat-n"></b><div class="pas" id="cat-pas"></div><span id="cat-s"></span></div>
+    <div class="cat" id="cat"><small id="cat-t"></small><b id="cat-c"></b><em id="cat-n"></em><div class="pas" id="cat-pas"></div><span id="cat-s"></span></div>
   </aside>
   <a class="meet" href="https://meet.google.com/xst-vqho-giu" target="_blank" rel="noopener"><span data-t="joindre"></span></a>
 </main>
@@ -68,21 +69,12 @@
   <div class="pied"><span id="jour"></span><span class="slogan" data-t="slogan"></span><a href="https://vhechurch.ca" target="_blank" rel="noopener">vhechurch.ca</a></div>
 </footer>
 
-<div class="commandes" id="commandes">
-  <button type="button" id="son" class="principal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l11-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm11-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" fill="none" stroke="currentColor" stroke-width="2"/></svg><span id="son-t"></span></button>
-  <label id="vol-l" hidden><span class="lu" data-t="volume"></span><input type="range" id="vol" min="0" max="100"></label>
-  <button type="button" id="suivante" hidden data-a="piste">⏭</button>
-  <button type="button" id="cloche" hidden aria-pressed="true" data-t="cloche"></button>
-  <button type="button" id="mus" hidden aria-pressed="true" data-t="mus"></button>
-  <span class="nav" id="nav" hidden><button type="button" class="es" data-son="sujet" data-t="es1"></button><button type="button" class="es" data-son="categorie" data-t="es2"></button><button type="button" class="es" data-son="heure" data-t="es3"></button><button type="button" id="prec" data-a="prec">‹</button><button type="button" id="suiv" data-a="suiv">›</button></span>
-  <button type="button" id="langue"></button>
-  <button type="button" id="plein" data-a="plein">⛶</button>
-</div>
+<div class="entree-son" id="porte" hidden><p><strong data-t="porte"></strong><small data-t="porteS"></small></p></div>
 
 <script src="../config.js?v=2"></script>
-<script src="musiques.js?v=2"></script>
-<script src="sons.js?v=2"></script>
-<script src="feu.js?v=2"></script>
-<script src="direct.js?v=2"></script>
+<script src="musiques.js?v=4"></script>
+<script src="sons.js?v=4"></script>
+<script src="feu.js?v=4"></script>
+<script src="direct.js?v=4"></script>
 </body>
 </html>
