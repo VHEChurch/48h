@@ -159,7 +159,7 @@
         if (h === hc) b.classList.add('ici');
         b.disabled = !liste || passe(h);
         b.append(el('b', '', court(h)));
-        if (g.length) g.forEach((p) => { const n = el('span', 'n', p.nom); n.title = p.nom; b.append(n); }); else b.append(el('span', 'libre', T.libre));
+        if (g.length) g.forEach((p) => { const n = el('span', 'n', p.nom); n.title = p.nom; b.append(n); }); else b.append(el('span', 'libre', passe(h) ? '' : T.libre));
         b.addEventListener('click', () => toucher(h));
         c.append(b);
       }
