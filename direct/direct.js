@@ -1,13 +1,13 @@
 /* L'écran de prière : tout se déduit de l'heure. Le sujet n° 1 commence jeudi 26.11.2026 à 00 h (UTC−6), un sujet toutes les 5 minutes. */
 (() => {
   const T = {
-    fr: { prog: '48 heures de prière non-stop', apercu: 'Aperçu', restant: 'Temps restant', garde: 'De permanence', joindre: 'Rejoindre la chaîne de prière', choisir: 'Choisir mon heure', volume: 'Volume', cloche: 'Cloche',
+    fr: { prog: '48 heures de prière non-stop', apercu: 'Aperçu', restant: 'Temps restant', garde: 'De permanence', joindre: 'Rejoindre la chaîne de prière', choisir: 'Choisir mon heure', volume: 'Volume', cloche: 'Bruitages', mus: 'Musique', categorie: 'Catégorie en cours', catN: (a, b) => `Sujet ${a} sur ${b}`, catS: (x) => `Ensuite : ${x}`, catF: (x) => `Prochaine catégorie : ${x}`, nouvelle: 'Nouvelle catégorie', faites: (n) => n === 1 ? '1 heure accomplie' : `${n} heures accomplies`, hEn: (n) => `Nous entrons dans l’heure ${n} sur 48`, es1: 'Son sujet', es2: 'Son catégorie', es3: 'Son heure',
       slogan: 'PARTAGER L’AMOUR DE <em>CHRIST</em> POUR CHANGER LE MONDE', sujet: (n, t) => `Sujet ${n} sur ${t}`, prochain: (r) => `Ensuite : ${r}`, apres: (h, q) => `À ${h} : ${q}`, releve: (m, q) => `Relève dans ${m} : ${q}`, personne: 'Toute l’assemblée', fin: 'fin de la chaîne',
-      son: 'Lancer la musique', couper: 'Couper la musique', plein: 'Plein écran', piste: 'Musique suivante', prec: 'Sujet précédent', suiv: 'Sujet suivant', avant: 'La chaîne commence dans', avantS: 'Jeudi 26 novembre, 00 h, heure d’Edmonton', finT: 'Les 48 heures sont accomplies', finS: 'Merci à chaque sentinelle. À Dieu seul la gloire !',
+      son: 'Lancer le son', couper: 'Couper le son', plein: 'Plein écran', piste: 'Musique suivante', prec: 'Sujet précédent', suiv: 'Sujet suivant', avant: 'La chaîne commence dans', avantS: 'Jeudi 26 novembre, 00 h, heure d’Edmonton', finT: 'Les 48 heures sont accomplies', finS: 'Merci à chaque sentinelle. À Dieu seul la gloire !',
       jours: ['Jeudi 26 novembre', 'Vendredi 27 novembre'], h: (h) => `${h} h`, heureN: (n) => `heure ${n} sur 48`, et: ' et ' },
-    en: { prog: '48 hours of non-stop prayer', apercu: 'Preview', restant: 'Time remaining', garde: 'On watch', joindre: 'Join the prayer chain', choisir: 'Choose my hour', volume: 'Volume', cloche: 'Bell',
+    en: { prog: '48 hours of non-stop prayer', apercu: 'Preview', restant: 'Time remaining', garde: 'On watch', joindre: 'Join the prayer chain', choisir: 'Choose my hour', volume: 'Volume', cloche: 'Chimes', mus: 'Music', categorie: 'Current category', catN: (a, b) => `Topic ${a} of ${b}`, catS: (x) => `Next: ${x}`, catF: (x) => `Next category: ${x}`, nouvelle: 'New category', faites: (n) => n === 1 ? '1 hour completed' : `${n} hours completed`, hEn: (n) => `Entering hour ${n} of 48`, es1: 'Topic sound', es2: 'Category sound', es3: 'Hour sound',
       slogan: 'SHARING THE LOVE OF <em>CHRIST</em> TO CHANGE THE WORLD', sujet: (n, t) => `Topic ${n} of ${t}`, prochain: (r) => `Next: ${r}`, apres: (h, q) => `At ${h}: ${q}`, releve: (m, q) => `Handover in ${m}: ${q}`, personne: 'The whole church', fin: 'end of the chain',
-      son: 'Play the music', couper: 'Stop the music', plein: 'Full screen', piste: 'Next track', prec: 'Previous topic', suiv: 'Next topic', avant: 'The chain begins in', avantS: 'Thursday, November 26, 12 AM, Edmonton time', finT: 'The 48 hours are complete', finS: 'Thank you to every watchman. To God alone be the glory!',
+      son: 'Turn sound on', couper: 'Turn sound off', plein: 'Full screen', piste: 'Next track', prec: 'Previous topic', suiv: 'Next topic', avant: 'The chain begins in', avantS: 'Thursday, November 26, 12 AM, Edmonton time', finT: 'The 48 hours are complete', finS: 'Thank you to every watchman. To God alone be the glory!',
       jours: ['Thursday, November 26', 'Friday, November 27'], h: (h) => `${h % 12 || 12} ${h < 12 ? 'AM' : 'PM'}`, heureN: (n) => `hour ${n} of 48`, et: ' and ' },
   };
   const $ = (i) => document.getElementById(i), Q = new URLSearchParams(location.search);
@@ -68,7 +68,7 @@
   function ajuster() {
     const z = $('zone'), s = $('sujet');
     if (vuEtat !== 'priere') return;
-    if (getComputedStyle($('priere')).display !== 'grid') { s.style.removeProperty('--fs'); return; }
+    if (getComputedStyle(document.querySelector('aside')).display === 'contents') { s.style.removeProperty('--fs'); return; }
     let a = 14, b = Math.min(innerHeight * 0.078, innerWidth * 0.046); const H = z.clientHeight * 0.965;
     for (let i = 0; i < 11; i++) { const m = (a + b) / 2; s.style.setProperty('--fs', m + 'px'); if (s.offsetHeight <= H) a = m; else b = m; }
     s.style.setProperty('--fs', a + 'px');
@@ -82,16 +82,33 @@
     if (anime) { let k = 0; html = html.split(/(<[^>]+>|[ \n]+)/).map((m) => !m || /^[< \n]/.test(m) ? m : `<span class="mot" style="--i:${Math.min(k++, 130)}">${m}</span>`).join(''); }
     d.innerHTML = html;
     $('numero').textContent = t().sujet(i + 1, TOTAL);
+    categorie(i);
     for (const e of [th, bl, v]) { e.classList.remove('entree'); if (anime) { void e.offsetWidth; e.classList.add('entree'); } }
     ajuster();
   }
+  function categorie(i) {
+    const th = sujet(i).theme || ''; $('cat').hidden = !th; if (!th) return;
+    let a = i, b = i; while (a > 0 && sujet(a - 1).theme === th) a--; while (b + 1 < TOTAL && sujet(b + 1).theme === th) b++;
+    const n = b - a + 1, k = i - a, s = i + 1 < TOTAL ? sujet(i + 1) : null;
+    $('cat-n').textContent = t().catN(k + 1, n);
+    $('cat-pas').hidden = n < 2 || n > 60;
+    $('cat-pas').innerHTML = n < 2 || n > 60 ? '' : Array.from({ length: n }, (_, j) => `<i class="${j < k ? 'ok' : j === k ? 'ici' : ''}"></i>`).join('');
+    $('cat-s').textContent = !s ? '' : b > i ? t().catS(s.ref || '') : t().catF(s.theme || '');
+  }
+  function annoncer(petit, grand, heure) {
+    const a = $('annonce'); $('an-s').textContent = petit; $('an-t').textContent = typo(grand); a.classList.toggle('h', !!heure); a.classList.remove('go'); void a.offsetWidth; a.classList.add('go');
+  }
   function changer(i) {
-    const premier = vu < 0; vu = i;
-    if (premier) return poser(i, true);
+    const premier = vu < 0, avant = vu; vu = i;
+    if (premier) { poser(i, true); if (now() - DEBUT < 4000) SON.jouer('heure'); return; }
+    // sujet, catégorie ou heure : à chaque passage son bruitage et son annonce
+    const heure = i === avant + 1 && i % 12 === 0, cat = sujet(i).theme && sujet(i).theme !== sujet(avant).theme;
+    SON.jouer(heure ? 'heure' : cat ? 'categorie' : 'sujet');
+    if (heure) annoncer(t().hEn(i / 12 + 1), t().faites(i / 12), true);
+    if (cat && heure) { SON.jouer('categorie', 6.5); setTimeout(() => annoncer(t().nouvelle, sujet(vu).theme), 4700); } else if (cat) annoncer(t().nouvelle, sujet(i).theme);
     const s = $('sujet'), ec = $('eclair'); s.classList.add('sort');
     if (window.FEU) window.FEU.souffle = 1;
     ec.classList.remove('go'); void ec.offsetWidth; ec.classList.add('go');
-    SON.cloche();
     setTimeout(() => { s.classList.remove('sort'); poser(vu, true); }, 480);
   }
   function permanence(n) {
@@ -109,6 +126,7 @@
       vuEtat = etat; document.body.dataset.etat = etat; $('priere').hidden = etat !== 'priere'; $('attente').hidden = etat === 'priere';
       document.querySelector('.general').hidden = etat !== 'priere';
       $('att-titre').textContent = etat === 'fin' ? t().finT : t().avant; $('att-sous').textContent = etat === 'fin' ? t().finS : t().avantS; $('att-chrono').hidden = etat === 'fin'; $('att-liens').hidden = etat === 'fin';
+      if (etat === 'fin' && vu >= 0) SON.jouer('fin');
       if (etat === 'priere') { vu = -1; if (window.FEU) window.FEU.souffle = 1; }
     }
     if (etat === 'attente') $('att-chrono').innerHTML = chiffres(hms(DEBUT - n));
@@ -132,45 +150,39 @@
     tete.setAttribute('transform', `rotate(${(-90 + 360 * f).toFixed(2)} 200 200)`);
   }
 
-  /* ---- musique et cloche ---- */
+  /* ---- bruitages et musique ---- */
   const SON = (() => {
-    const M = window.MUSIQUES || {}, L = M.fichiers || [], yt = !L.length && M.playlist;
-    let marche = false, vol = Number(lire('48h-vol') ?? 60), cloche = lire('48h-cloche') !== '0', ctx = null, lecteur = null, pret = false, A = null, k = 0;
+    const M = window.MUSIQUES || {}, L = M.fichiers || [], petit = matchMedia('(max-width:860px),(pointer:coarse)').matches, dispo = !!(L.length || (M.playlist && !petit));
+    let marche = false, vol = Number(lire('48h-vol') ?? 60), cloche = lire('48h-cloche') !== '0', mus = true, ctx = null, sortie = null, fen = null, A = null, k = 0;
+    const canal = 'BroadcastChannel' in window ? new BroadcastChannel('48h-musique') : null, dire = (o) => canal && canal.postMessage(o);
+    if (canal) canal.onmessage = ({ data: d }) => { if (d.ferme) { fen = null; if (marche && mus) { mus = false; etat(); } } };
     $('vol').value = vol;
     function etat() {
-      $('son-t').textContent = marche ? t().couper : t().son; $('vol-l').hidden = $('suivante').hidden = $('cloche').hidden = !marche;
-      $('cloche').setAttribute('aria-pressed', cloche); $('son').setAttribute('aria-pressed', marche);
-      $('musique').hidden = !(marche && yt); document.body.classList.toggle('en-musique', !!(marche && yt));
-      requestAnimationFrame(ajuster);
+      const m = marche && dispo;
+      $('son-t').textContent = marche ? t().couper : t().son; $('cloche').hidden = !marche; $('mus').hidden = !m; $('vol-l').hidden = $('suivante').hidden = !m || !mus;
+      $('cloche').setAttribute('aria-pressed', cloche); $('mus').setAttribute('aria-pressed', mus); $('son').setAttribute('aria-pressed', marche);
     }
-    // lecteur officiel YouTube : la playlist en boucle, commencée au morceau de l'heure en cours
-    function ouvrirYT() {
-      const creer = () => {
-        const i = ((Math.floor((now() - DEBUT) / 3600000) % M.nombre) + M.nombre) % M.nombre;
-        lecteur = new window.YT.Player('lecteur', { width: '100%', height: '100%', playerVars: { listType: 'playlist', list: M.playlist, index: i, autoplay: 1, loop: 1, rel: 0, playsinline: 1, origin: location.origin }, events: {
-          onReady: () => { pret = true; lecteur.setVolume(vol); lecteur.setLoop(true); if (marche) lecteur.playVideo(); },
-          onError: () => { if (marche) setTimeout(() => lecteur.nextVideo(), 1500); } } });
-      };
-      if (window.YT && window.YT.Player) return creer();
-      window.onYouTubeIframeAPIReady = creer;
-      const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; s.onerror = () => { marche = false; s.remove(); etat(); }; document.head.append(s);
+    function musique(oui) {
+      if (!dispo) return;
+      if (L.length) { if (!oui) { if (A) A.pause(); } else if (A) A.play(); else fichier(0); return; }
+      // la playlist YouTube joue dans sa propre fenêtre, derrière l'écran de prière : rien ne s'affiche ici
+      if (oui && (!fen || fen.closed)) { fen = open('musique/', 'musique48', 'popup,width=480,height=340,left=20,top=20'); if (!fen) { mus = false; etat(); } } else dire({ cmd: oui ? 'lire' : 'pause' });
     }
-    // si la musique s'arrête toute seule (pause du navigateur, fin de liste), on la relance
-    setInterval(() => { if (!marche || !pret) return; const e = lecteur.getPlayerState(); if (e === 0 || e === 5 || e === -1) lecteur.playVideo(); }, 8000);
-    function fichier(i) { k = i % L.length; if (A) A.pause(); A = new Audio(L[k].src); A.volume = vol / 100; A.onended = () => marche && fichier(k + 1); return A.play(); }
-    $('son').onclick = async () => {
-      marche = !marche; etat();
-      try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); ctx.resume(); } catch { ctx = null; }
-      if (yt) { if (!lecteur && marche) ouvrirYT(); else if (pret) marche ? lecteur.playVideo() : lecteur.pauseVideo(); } else if (L.length) { if (!marche) A.pause(); else (A ? A.play() : fichier(0)).catch(() => { marche = false; etat(); }); }
+    function fichier(i) { k = i % L.length; if (A) A.pause(); A = new Audio(L[k].src); A.volume = vol / 100; A.onended = () => marche && mus && fichier(k + 1); A.play().catch(() => {}); }
+    $('son').onclick = () => {
+      marche = !marche;
+      try { if (!ctx) { ctx = new (window.AudioContext || window.webkitAudioContext)(); sortie = ctx.createDynamicsCompressor(); sortie.threshold.value = -10; sortie.ratio.value = 6; sortie.connect(ctx.destination); } ctx.resume(); } catch { ctx = null; }
+      if (mus) musique(marche);
+      etat(); if (marche) jouer('sujet');
     };
-    $('suivante').onclick = () => yt ? pret && lecteur.nextVideo() : fichier(k + 1);
-    $('vol').oninput = (e) => { vol = Number(e.target.value); ecrire('48h-vol', vol); if (pret) lecteur.setVolume(vol); if (A) A.volume = vol / 100; };
-    $('cloche').onclick = () => { cloche = !cloche; ecrire('48h-cloche', cloche ? '1' : '0'); etat(); if (cloche) sonner(); };
-    function sonner() {
-      if (!ctx || !marche || !cloche) return; const t0 = ctx.currentTime + 0.05, sortie = ctx.createGain(); sortie.gain.value = 0.14 * (0.4 + 0.6 * vol / 100); sortie.connect(ctx.destination);
-      for (const [f, g, d] of [[587.33, 1, 4.5], [1177.4, 0.42, 3], [1763, 0.22, 2], [2420, 0.1, 1.3], [293.7, 0.35, 5]]) { const o = ctx.createOscillator(), e = ctx.createGain(); o.frequency.value = f; e.gain.setValueAtTime(0, t0); e.gain.linearRampToValueAtTime(g, t0 + 0.012); e.gain.exponentialRampToValueAtTime(0.0004, t0 + d); o.connect(e).connect(sortie); o.start(t0); o.stop(t0 + d + 0.1); }
-    }
-    return { cloche: sonner, etat };
+    $('mus').onclick = () => { mus = !mus; musique(mus); etat(); };
+    $('suivante').onclick = () => L.length ? fichier(k + 1) : dire({ cmd: 'suivante' });
+    $('vol').oninput = (e) => { vol = Number(e.target.value); ecrire('48h-vol', vol); dire({ vol }); if (A) A.volume = vol / 100; };
+    $('cloche').onclick = () => { cloche = !cloche; ecrire('48h-cloche', cloche ? '1' : '0'); etat(); if (cloche) jouer('sujet'); };
+    function jouer(nom, dans = 0) { if (!ctx || !marche || !cloche) return; if (ctx.state !== 'running') ctx.resume(); try { window.SONS.jouer(nom, ctx, sortie, 1, ctx.currentTime + 0.06 + dans); } catch { /* son indisponible */ } }
+    // boutons d'essai de l'aperçu : le bruitage seul, sans ouvrir la musique
+    document.querySelectorAll('[data-son]').forEach((e) => { e.onclick = () => { if (!marche) { mus = false; $('son').click(); setTimeout(() => jouer(e.dataset.son), 1200); } else jouer(e.dataset.son); }; });
+    return { jouer, etat };
   })();
 
   /* ---- commandes ---- */
