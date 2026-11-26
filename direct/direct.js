@@ -84,7 +84,7 @@
   function poser(i, anime) {
     const x = sujet(i), th = $('theme'), rf = $('ref'), bl = rf.closest('.ref'), v = $('verset'), d = $('declare');
     th.textContent = typo(x.theme); $('pour').textContent = x.pour ? t().pour(x.pour) : ''; th.parentNode.hidden = !x.theme; $('titre').textContent = typo(x.titre || '');
-    rf.textContent = x.ref || ''; bl.hidden = !x.ref;
+    rf.textContent = x.ref || ''; bl.hidden = !x.ref; $('boost').innerHTML = x.boost ? '<b>Boost</b>' + ech(x.boost) : '';
     v.textContent = x.verset ? typo('« ' + x.verset + ' »') : ''; v.hidden = !x.verset;
     let k = 0; d.innerHTML = (x.dec || [x.texte || '']).map((p) => {
     let html = ech(typo(p)).replace(MOTS, '<strong>$&</strong>');
